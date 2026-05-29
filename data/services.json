@@ -1,0 +1,17 @@
+[
+  {
+    "title": "WhatsApp Business API",
+    "description": "Подключение и интеграция официального API для массовых рассылок и чат-ботов.",
+    "icon": "fab fa-whatsapp"
+  },
+  {
+    "title": "Автоматизация коммуникаций",
+    "description": "Настройка автоответов, сценариев и CRM-интеграции.",
+    "icon": "fas fa-robot"
+  },
+  {
+    "title": "Консалтинг",
+    "description": "Анализ бизнес-процессов и подбор решений для роста.",
+    "icon": "fas fa-chalkboard-user"
+  }
+]

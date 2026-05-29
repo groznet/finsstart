@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FinStart | Автоматизация бизнес-коммуникаций</title>
+  <meta name="description" content="FinStart — интеграция WhatsApp Business API, CRM, чат-боты. Повышайте продажи и доверие к бизнесу. Официальный сайт.">
+  <meta name="keywords" content="FinStart, WhatsApp Business, автоматизация, бизнес-коммуникации, CRM, Грозный">
+  <meta name="author" content="GrozNet">
+  <!-- Open Graph -->
+  <meta property="og:title" content="FinStart — Умные бизнес-коммуникации">
+  <meta property="og:description" content="Помогаем бизнесу в Чечне и России расти с помощью автоматизации WhatsApp.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://finstart.ru">
+  <meta property="og:image" content="https://finstart.ru/assets/images/og-preview.jpg">
+  <!-- Favicon inline -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230F172A'/%3E%3Ctext x='50' y='67' font-size='58' text-anchor='middle' fill='white' font-weight='bold'%3EFS%3C/text%3E%3C/svg%3E">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind + Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Custom CSS for accordion, mobile menu, animations */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-answer.open {
+      max-height: 300px;
+    }
+    .mobile-menu-open {
+      overflow: hidden;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      animation: fadeUp 0.7s ease forwards;
+    }
+    .service-card, .testimonial-card {
+      transition: all 0.3s ease;
+    }
+    .service-card:hover, .testimonial-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.1);
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#0F172A',
+            accent: '#3B82F6',
+            'gray-soft': '#F8FAFC',
+          },
+          fontFamily: {
+            heading: ['Montserrat', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-body text-brand bg-white">
+
+  <!-- ==================== MULTILEVEL HEADER (Top bar + Main nav) ==================== -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+    <!-- Top bar with contacts (desktop) -->
+    <div class="hidden md:block bg-brand text-white text-sm py-2.5">
+      <div class="container mx-auto px-5 lg:px-8 flex justify-between items-center">
+        <div class="flex space-x-6">
+          <span><i class="fas fa-phone-alt mr-2 text-accent"></i> +7 (900) 000-00-00</span>
+          <span><i class="fas fa-envelope mr-2 text-accent"></i> info@finstart.ru</span>
+          <span><i class="fab fa-telegram mr-2 text-accent"></i> @finstart</span>
+        </div>
+        <div>
+          <a href="#contact" class="hover:text-accent transition flex items-center gap-1">Связаться <i class="fas fa-arrow-right text-xs"></i></a>
+        </div>
+      </div>
+    </div>
+    <!-- Main navigation -->
+    <div class="container mx-auto px-5 lg:px-8 py-4 flex items-center justify-between">
+      <a href="#hero" class="text-2xl font-heading font-extrabold tracking-tight text-brand">FinStart</a>
+      <nav class="hidden md:flex space-x-8 text-gray-700 font-medium">
+        <a href="#hero" class="hover:text-accent transition">Главная</a>
+        <a href="#about" class="hover:text-accent transition">О нас</a>
+        <a href="#services" class="hover:text-accent transition">Услуги</a>
+        <a href="#process" class="hover:text-accent transition">Процесс</a>
+        <a href="#faq" class="hover:text-accent transition">FAQ</a>
+        <a href="#contact" class="hover:text-accent transition">Контакты</a>
+      </nav>
+      <button id="mobileMenuBtn" class="md:hidden text-2xl focus:outline-none" aria-label="Меню"><i class="fas fa-bars"></i></button>
+    </div>
+    <!-- Mobile drawer -->
+    <div id="mobileMenu" class="fixed inset-0 bg-white z-50 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden w-full h-full min-h-screen">
+          <div class="flex flex-col h-full pt-20 px-6 bg-white">
+            <button id="closeMenuBtn" class="absolute top-6 right-6 text-2xl text-gray-800"><i class="fas fa-times"></i></button>
+            <nav class="flex flex-col space-y-6 text-xl font-medium text-gray-800">
+              <a href="#hero" class="border-b pb-2">Главная</a>
+              <a href="#about" class="border-b pb-2">О нас</a>
+              <a href="#services" class="border-b pb-2">Услуги</a>
+              <a href="#process" class="border-b pb-2">Процесс</a>
+              <a href="#faq" class="border-b pb-2">FAQ</a>
+              <a href="#contact" class="border-b pb-2">Контакты</a>
+            </nav>
+            <div class="mt-auto pt-8 text-sm text-gray-500 border-t border-gray-100 pb-8">
+              <p>© 2025 FinStart | Грозный, Чечня</p>
+              <div class="flex space-x-4 mt-3 text-lg text-gray-700">
+                <i class="fab fa-whatsapp"></i>
+                <i class="fab fa-telegram"></i>
+                <i class="fab fa-vk"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+  </header>
+
+  <main>
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="hero" class="relative bg-gradient-to-br from-brand via-brand to-accent/80 text-white py-24 md:py-32 overflow-hidden">
+      <div class="container mx-auto px-5 lg:px-8 text-center relative z-10">
+        <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium mb-6">
+          <i class="fab fa-whatsapp text-green-300"></i> Официальный партнёр WhatsApp Business
+        </div>
+        <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight">Автоматизация <br>бизнес-коммуникаций</h1>
+        <p class="mt-6 text-lg md:text-xl max-w-2xl mx-auto opacity-95">FinStart — интеграция WhatsApp API, CRM и чат-ботов для малого и среднего бизнеса. Работаем в Грозном и по всей России.</p>
+        <div class="mt-10 flex flex-wrap justify-center gap-4">
+          <a href="#contact" class="bg-accent hover:bg-blue-600 px-8 py-3 rounded-full font-semibold shadow-lg transition inline-flex items-center gap-2">Получить консультацию <i class="fas fa-arrow-right"></i></a>
+          <a href="#services" class="bg-white/20 backdrop-blur-sm hover:bg-white/30 px-8 py-3 rounded-full font-semibold transition">Наши услуги</a>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white to-transparent"></div>
+    </section>
+
+    <!-- ==================== TRUST BADGES ==================== -->
+    <section class="py-10 bg-white border-b border-gray-100">
+      <div class="container mx-auto px-5 text-center">
+        <p class="text-gray-400 text-sm uppercase tracking-wider">Доверяют лидеры рынка</p>
+        <div class="flex flex-wrap justify-center gap-8 md:gap-12 mt-5 opacity-70 grayscale">
+          <span class="text-lg font-semibold">⚡ TechGroup</span><span class="text-lg font-semibold">🏦 BankCRM</span><span class="text-lg font-semibold">📱 MobileSoft</span><span class="text-lg font-semibold">🏢 Grozny Dev</span><span class="text-lg font-semibold">📊 DataPro</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ABOUT + STATS ==================== -->
+    <section id="about" class="py-20 md:py-28 bg-gray-soft">
+      <div class="container mx-auto px-5 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="fade-up">
+            <span class="text-accent font-semibold uppercase tracking-wide">О компании</span>
+            <h2 class="font-heading text-3xl md:text-4xl font-bold mt-2">Почему FinStart?</h2>
+            <p class="mt-5 text-gray-600 leading-relaxed">Мы объединяем экспертизу в бизнес-процессах и современных технологиях. С 2022 года помогаем компаниям в Чечне и по всей России автоматизировать общение с клиентами через WhatsApp, повышать конверсию и сокращать затраты. Официальный партнёр Meta Business.</p>
+            <div class="mt-8 grid grid-cols-2 gap-6">
+              <div><i class="fas fa-rocket text-accent text-2xl"></i><p class="font-bold text-2xl mt-2">50+</p><p class="text-gray-500">успешных проектов</p></div>
+              <div><i class="fas fa-users text-accent text-2xl"></i><p class="font-bold text-2xl mt-2">98%</p><p class="text-gray-500">довольных клиентов</p></div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 md:p-8 shadow-md border border-gray-100 fade-up" style="animation-delay:0.1s">
+            <i class="fas fa-chart-simple text-accent text-3xl mb-4"></i>
+            <h3 class="text-xl font-bold">Результаты после внедрения</h3>
+            <ul class="mt-4 space-y-3 text-gray-600">
+              <li><i class="fas fa-check-circle text-accent mr-2"></i> Скорость ответа ↑ 80%</li>
+              <li><i class="fas fa-chart-line mr-2 text-accent"></i> Продажи через WhatsApp ↑ 47%</li>
+              <li><i class="fas fa-clock mr-2 text-accent"></i> 24/7 поддержка чат-ботами</li>
+              <li><i class="fas fa-dollar-sign mr-2 text-accent"></i> Снижение затрат на поддержку на 35%</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SERVICES SECTION (Dynamic JS) ==================== -->
+    <section id="services" class="py-20 md:py-28 bg-white">
+      <div class="container mx-auto px-5 lg:px-8 text-center">
+        <span class="text-accent font-semibold uppercase tracking-wide">Что мы предлагаем</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-2">Ключевые услуги</h2>
+        <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Полный цикл автоматизации бизнес-коммуникаций под ключ</p>
+        <div id="servicesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+          <!-- Will be injected via JS -->
+          <div class="col-span-full flex justify-center py-12"><i class="fas fa-spinner fa-spin text-accent text-3xl"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PROCESS SECTION (4 steps) ==================== -->
+    <section id="process" class="py-20 bg-gray-soft">
+      <div class="container mx-auto px-5 text-center">
+        <span class="text-accent font-semibold">Методика</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-2">Как мы работаем</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+          <div class="bg-white p-6 rounded-2xl shadow-sm"><div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-accent text-2xl font-bold">1</div><h3 class="font-bold text-xl mt-4">Анализ</h3><p class="text-gray-500 text-sm mt-2">Изучаем бизнес-задачи и подбираем решения</p></div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm"><div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-accent text-2xl font-bold">2</div><h3 class="font-bold text-xl mt-4">Интеграция</h3><p class="text-gray-500 text-sm mt-2">Настраиваем WhatsApp Business API и CRM</p></div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm"><div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-accent text-2xl font-bold">3</div><h3 class="font-bold text-xl mt-4">Автоматизация</h3><p class="text-gray-500 text-sm mt-2">Чат-боты, рассылки, сценарии общения</p></div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm"><div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-accent text-2xl font-bold">4</div><h3 class="font-bold text-xl mt-4">Поддержка 24/7</h3><p class="text-gray-500 text-sm mt-2">Обучение и техническое сопровождение</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-5 text-center">
+        <h2 class="font-heading text-3xl md:text-4xl font-bold">Отзывы клиентов</h2>
+        <p class="text-gray-500 mt-2">Более 50 компаний уже доверяют нам свой бизнес</p>
+        <div class="grid md:grid-cols-3 gap-6 mt-12">
+          <div class="testimonial-card bg-gray-soft p-6 rounded-2xl shadow-sm"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><p class="mt-3 text-gray-600">“Внедрили WhatsApp API за 3 дня. Продажи выросли на 35%.”</p><p class="font-bold mt-4">— Ахмат, CEO Бизнес-Центр</p></div>
+          <div class="testimonial-card bg-gray-soft p-6 rounded-2xl shadow-sm"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><p class="mt-3 text-gray-600">“Автоматизация сэкономила 20 часов в неделю. Рекомендую!”</p><p class="font-bold mt-4">— Мадина, сеть магазинов</p></div>
+          <div class="testimonial-card bg-gray-soft p-6 rounded-2xl shadow-sm"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><p class="mt-3 text-gray-600">“Профессиональная команда, всегда на связи. Благодарны FinStart!”</p><p class="font-bold mt-4">— Рустам, FinTech компания</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FAQ ACCORDION (Dynamic) ==================== -->
+    <section id="faq" class="py-20 bg-gray-soft">
+      <div class="container mx-auto px-5">
+        <div class="text-center max-w-2xl mx-auto">
+          <span class="text-accent font-semibold">Поддержка</span>
+          <h2 class="font-heading text-3xl md:text-4xl font-bold mt-2">Часто задаваемые вопросы</h2>
+          <p class="text-gray-500 mt-3">Ответы на популярные вопросы об автоматизации</p>
+        </div>
+        <div id="faqAccordion" class="max-w-3xl mx-auto mt-12 space-y-4">
+          <!-- JS will inject FAQ items -->
+          <div class="text-center py-10"><i class="fas fa-spinner fa-spin text-accent text-2xl"></i> Загрузка вопросов...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CTA BLOCK ==================== -->
+    <section class="py-20 bg-brand text-white text-center relative overflow-hidden">
+      
+      <!-- Animated Vector Shapes Background -->
+      <div class="absolute inset-0 opacity-10 pointer-events-none z-0">
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <style>
+            @keyframes pulse-shapes {
+              0%, 100% { transform: scale(1) translate(0px, 0px) rotate(0deg); }
+              33% { transform: scale(1.08) translate(15px, -10px) rotate(3deg); }
+              66% { transform: scale(0.95) translate(-10px, 15px) rotate(-3deg); }
+            }
+            @keyframes float-reverse {
+              0%, 100% { transform: scale(1) translate(0px, 0px) rotate(0deg); }
+              50% { transform: scale(1.05) translate(-20px, -15px) rotate(-5deg); }
+            }
+            .brand-shape-1 { animation: pulse-shapes 14s ease-in-out infinite; fill: #FFFFFF; transform-origin: 20% 50%; }
+            .brand-shape-2 { animation: float-reverse 18s ease-in-out infinite; fill: #60A5FA; transform-origin: 80% 50%; }
+          </style>
+          <!-- Left side flowing wave blob -->
+          <path class="brand-shape-1" d="M-100,100 C100,50 150,250 50,350 C-50,450 -150,300 -150,200 Z" />
+          <!-- Right side geometric grid accent -->
+          <path class="brand-shape-2" d="M1100,50 C1200,-50 1350,50 1250,150 C1150,250 1000,150 1100,50 Z" />
+        </svg>
+      </div>
+
+      <div class="container mx-auto px-5 relative z-10">
+        <h2 class="font-heading text-3xl md:text-4xl font-bold">Готовы масштабировать бизнес?</h2>
+        <p class="mt-4 text-gray-300 max-w-xl mx-auto">Оставьте заявку, и мы бесплатно проконсультируем по внедрению WhatsApp Business API.</p>
+        <a href="#contact" class="mt-8 inline-block bg-accent hover:bg-blue-600 px-8 py-3 rounded-full font-semibold transition shadow-lg">Начать проект <i class="fas fa-paper-plane ml-2"></i></a>
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION + MAP ==================== -->
+    <section id="contact" class="py-20 bg-white">
+      <div class="container mx-auto px-5 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto">
+          <span class="text-accent font-semibold">Свяжитесь с нами</span>
+          <h2 class="font-heading text-3xl md:text-4xl font-bold mt-2">Контакты</h2>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-12 mt-12">
+          <div class="space-y-6">
+            <div class="flex items-center gap-4 p-4 bg-gray-soft rounded-xl"><i class="fas fa-phone-alt text-accent text-2xl w-8"></i><div><p class="font-semibold">Телефон</p><p class="text-gray-600">+7 (900) 000-00-00</p></div></div>
+            <div class="flex items-center gap-4 p-4 bg-gray-soft rounded-xl"><i class="fas fa-envelope text-accent text-2xl w-8"></i><div><p class="font-semibold">Email</p><p class="text-gray-600">info@finstart.ru</p></div></div>
+            <div class="flex items-center gap-4 p-4 bg-gray-soft rounded-xl"><i class="fab fa-telegram text-accent text-2xl w-8"></i><div><p class="font-semibold">Telegram</p><p class="text-gray-600">@finstart</p></div></div>
+            <div class="flex items-center gap-4 p-4 bg-gray-soft rounded-xl"><i class="fas fa-map-marker-alt text-accent text-2xl w-8"></i><div><p class="font-semibold">Адрес</p><p class="text-gray-600">г. Грозный, ул. Лорсанова, 12, БЦ «Грозный Сити»</p></div></div>
+          </div>
+          <div class="bg-gray-soft rounded-2xl p-6 shadow-sm">
+            <h3 class="text-xl font-bold mb-4">Остались вопросы? Напишите нам</h3>
+            <form id="contactForm" class="space-y-4">
+              <input type="text" placeholder="Ваше имя" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition">
+              <input type="email" placeholder="Email или телефон" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition">
+              <textarea rows="4" placeholder="Сообщение" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition"></textarea>
+              <button type="submit" class="bg-accent text-white py-3 rounded-xl w-full font-semibold hover:bg-blue-600 transition">Отправить сообщение</button>
+            </form>
+            <p class="text-xs text-gray-400 text-center mt-4">Нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности.</p>
+          </div>
+        </div>
+        <!-- Map placeholder -->
+        <div class="mt-12 bg-gray-200 h-56 rounded-xl flex items-center justify-center text-gray-500"><i class="fas fa-map-marked-alt mr-2 text-accent"></i> Интерактивная карта (Грозный, ул. Лорсанова, 12)</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 4-COLUMN FOOTER ==================== -->
+  <footer class="bg-brand text-gray-300 pt-16 pb-8 relative overflow-hidden">
+    
+    <div class="absolute inset-0 opacity-5 pointer-events-none z-0">
+      <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <style>
+          @keyframes slow-orbit {
+            0% { transform: rotate(0deg) translateY(0px); }
+            50% { transform: rotate(3deg) translateY(-15px); }
+            100% { transform: rotate(0deg) translateY(0px); }
+          }
+          @keyframes slow-orbit-reverse {
+            0% { transform: rotate(0deg) translateY(0px); }
+            50% { transform: rotate(-4deg) translateY(10px); }
+            100% { transform: rotate(0deg) translateY(0px); }
+          }
+          .footer-shape-1 { animation: slow-orbit 20s ease-in-out infinite; fill: #FFFFFF; transform-origin: 10% 90%; }
+          .footer-shape-2 { animation: slow-orbit-reverse 25s ease-in-out infinite; fill: #3B82F6; transform-origin: 90% 20%; }
+        </style>
+        <path class="footer-shape-1" d="M-50,300 C100,250 200,450 50,550 C-50,650 -150,500 -150,400 Z" />
+        <path class="footer-shape-2" d="M1000,-50 C1150,-100 1300,50 1200,150 C1100,250 900,100 1000,-50 Z" />
+      </svg>
+    </div>
+
+    <div class="container mx-auto px-5 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-white text-xl font-bold">FinStart</h3>
+          <p class="mt-3 text-sm text-gray-400">Автоматизация бизнес-коммуникаций и WhatsApp интеграции для роста вашей компании.</p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold">Компания</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a href="#about" class="hover:text-accent transition">О нас</a></li>
+            <li><a href="#services" class="hover:text-accent transition">Услуги</a></li>
+            <li><a href="#process" class="hover:text-accent transition">Процесс</a></li>
+            <li><a href="#contact" class="hover:text-accent transition">Контакты</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold">Юридическая информация</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a href="#" class="hover:text-accent transition">Политика конфиденциальности</a></li>
+            <li><a href="#" class="hover:text-accent transition">Пользовательское соглашение</a></li>
+            <li>ОГРН: 1234567890</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold">Мы в соцсетях</h4>
+          <div class="flex space-x-4 mt-3 text-xl">
+            <a href="#" class="hover:text-accent transition"><i class="fab fa-telegram"></i></a>
+            <a href="#" class="hover:text-accent transition"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" class="hover:text-accent transition"><i class="fab fa-vk"></i></a>
+          </div>
+          <p class="mt-4 text-sm text-gray-400">© 2025 FinStart. Все права защищены.</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-10 pt-6 text-center text-xs text-gray-500 relative z-10">
+        Грозный, Россия | Официальный сайт компании FinStart. Сайт создан для бизнес-присутствия и подтверждения компании.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MAIN JS ==================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mobile menu
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const closeBtn = document.getElementById('closeMenuBtn');
+      function toggleMenu(open) {
+        if (mobileMenu) mobileMenu.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+        document.body.classList.toggle('mobile-menu-open', open);
+      }
+      if (mobileBtn) mobileBtn.addEventListener('click', () => toggleMenu(true));
+      if (closeBtn) closeBtn.addEventListener('click', () => toggleMenu(false));
+
+      // Services data (inline to avoid external fetch)
+      const services = [
+        { title: "WhatsApp Business API", description: "Подключение официального API для массовых рассылок, чат-ботов и интеграции с CRM.", icon: "fab fa-whatsapp" },
+        { title: "Автоматизация коммуникаций", description: "Настройка автоответов, сценариев общения и умных рассылок.", icon: "fas fa-robot" },
+        { title: "Консалтинг и аудит", description: "Анализ бизнес-процессов и подбор оптимальных решений для роста продаж.", icon: "fas fa-chalkboard-user" },
+        { title: "Интеграция с CRM", description: "Синхронизация WhatsApp с amoCRM, Bitrix24 и другими системами.", icon: "fas fa-database" },
+        { title: "Чат-боты под ключ", description: "Разработка умных ботов для автоматического ответа на 90% вопросов.", icon: "fas fa-comment-dots" },
+        { title: "Техподдержка 24/7", description: "Круглосуточное сопровождение и обучение ваших сотрудников.", icon: "fas fa-headset" }
+      ];
+      const servicesGrid = document.getElementById('servicesGrid');
+      if (servicesGrid) {
+        servicesGrid.innerHTML = services.map(svc => `
+          <div class="service-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 transition">
+            <i class="${svc.icon} text-4xl text-accent mb-4"></i>
+            <h3 class="text-xl font-bold">${svc.title}</h3>
+            <p class="text-gray-500 mt-2">${svc.description}</p>
+          </div>
+        `).join('');
+      }
+
+      // FAQ data
+      const faqs = [
+        { question: "Сколько времени занимает подключение WhatsApp API?", answer: "Обычно от 3 до 7 рабочих дней после верификации вашего бизнеса в Meta." },
+        { question: "Есть ли поддержка после внедрения?", answer: "Да, мы предоставляем техническую поддержку 24/7 и обучение сотрудников." },
+        { question: "Работаете ли вы с бизнесом не из Чечни?", answer: "Да, мы работаем с компаниями по всей России удалённо." },
+        { question: "Какая стоимость услуг?", answer: "Стоимость зависит от объёма и сложности. Оставьте заявку на консультацию — мы подготовим индивидуальное предложение." }
+      ];
+      const faqContainer = document.getElementById('faqAccordion');
+      if (faqContainer) {
+        faqContainer.innerHTML = faqs.map((faq, idx) => `
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="faq-question flex justify-between items-center p-5 font-semibold cursor-pointer hover:bg-gray-50 transition" data-idx="${idx}">
+              <span>${faq.question}</span><i class="fas fa-chevron-down transition-transform duration-200"></i>
+            </div>
+            <div class="faq-answer px-5 pb-5 text-gray-600">${faq.answer}</div>
+          </div>
+        `).join('');
+        document.querySelectorAll('.faq-question').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const answer = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+            answer.classList.toggle('open');
+            icon.style.transform = answer.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0)';
+          });
+        });
+      }
+
+      // Contact form handler
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          alert('Спасибо! Наш специалист свяжется с вами в ближайшее время.');
+          contactForm.reset();
+        });
+      }
+
+      // Smooth anchor click
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+          if (targetId === "#" || targetId === "") return;
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
+            e.preventDefault();
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+            if (mobileMenu && mobileMenu.style.transform === 'translateX(0px)') toggleMenu(false);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
