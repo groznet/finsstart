@@ -36,17 +36,27 @@ document.addEventListener('DOMContentLoaded', () => {
         faqContainer.innerHTML = faqs.map((faq, idx) => `
           <div class="border rounded-xl bg-white overflow-hidden">
             <div class="faq-question flex justify-between items-center p-5 font-semibold cursor-pointer hover:bg-gray-50" data-idx="${idx}">
-              <span>${faq.question}</span><i class="fas fa-chevron-down transition-transform duration-200"></i>
+              <span>${faq.question}</span>
+              <i class="fas fa-chevron-down transform transition-transform duration-200"></i>
             </div>
-            <div class="faq-answer px-5 pb-5 text-gray-600">${faq.answer}</div>
+            <div class="faq-answer hidden px-5 pb-5 text-gray-600">${faq.answer}</div>
           </div>
         `).join('');
+
         document.querySelectorAll('.faq-question').forEach(btn => {
           btn.addEventListener('click', () => {
             const answer = btn.nextElementSibling;
             const icon = btn.querySelector('i');
-            answer.classList.toggle('open');
-            icon.style.transform = answer.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0)';
+            
+            // Переключаем отображение (открыто/закрыто)
+            answer.classList.toggle('hidden');
+            
+            // Поворот иконки шеврона с помощью классов Tailwind
+            if (answer.classList.contains('hidden')) {
+              icon.classList.remove('rotate-180');
+            } else {
+              icon.classList.add('rotate-180');
+            }
           });
         });
       });
