@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Страница не найдена | FinsStart</title>
+
+    <meta name="robots" content="noindex,follow">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="/assets/js/localTailwind.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#0F172A',
+                        accent: '#3B82F6',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body bg-brand text-white min-h-screen flex items-center justify-center overflow-hidden">
+
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 left-20 w-72 h-72 rounded-full bg-accent blur-3xl"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-white blur-3xl"></div>
+    </div>
+
+    <main class="relative z-10 max-w-3xl mx-auto px-6 text-center">
+
+        <a href="/" class="inline-block mb-8">
+            <span class="font-heading text-3xl font-extrabold">
+                FinsStart
+            </span>
+        </a>
+
+        <div class="text-7xl md:text-9xl font-black text-accent">
+            404
+        </div>
+
+        <h1 class="font-heading text-3xl md:text-5xl font-bold mt-6">
+            Страница не найдена
+        </h1>
+
+        <p class="mt-6 text-lg text-gray-300 max-w-xl mx-auto">
+            Возможно, ссылка устарела, страница была удалена или адрес введён с ошибкой.
+        </p>
+
+        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+            <a
+                href="/"
+                class="bg-accent px-8 py-4 rounded-full font-semibold"
+            >
+                На главную
+            </a>
+
+            <a
+                href="tel:+79389037777"
+                class="bg-white/10 backdrop-blur-sm px-8 py-4 rounded-full font-semibold"
+            >
+                Связаться с нами
+            </a>
+        </div>
+
+        <div class="mt-16 grid md:grid-cols-3 gap-4 text-left">
+            <a href="/#services" class="bg-white/5 p-5 rounded-2xl">
+                <div class="font-semibold">Услуги</div>
+                <div class="text-sm text-gray-400 mt-2">
+                    WhatsApp API, CRM и чат-боты
+                </div>
+            </a>
+
+            <a href="/#about" class="bg-white/5 p-5 rounded-2xl">
+                <div class="font-semibold">О компании</div>
+                <div class="text-sm text-gray-400 mt-2">
+                    Узнайте больше о FinsStart
+                </div>
+            </a>
+
+            <a href="/#contact" class="bg-white/5 p-5 rounded-2xl">
+                <div class="font-semibold">Контакты</div>
+                <div class="text-sm text-gray-400 mt-2">
+                    Получите консультацию
+                </div>
+            </a>
+        </div>
+
+        <p class="mt-12 text-sm text-gray-500">
+            © 2026 FinsStart. Автоматизация бизнес-коммуникаций.
+        </p>
+
+    </main>
+
+</body>
+</html>
