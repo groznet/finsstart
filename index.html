@@ -273,10 +273,18 @@
           <div class="bg-gray-soft rounded-2xl p-6 shadow-sm">
             <h3 class="text-xl font-bold mb-4">Остались вопросы? Напишите нам</h3>
             <form id="contactForm" class="space-y-4">
-              <input type="text" placeholder="Ваше имя" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition">
-              <input type="email" placeholder="Email или телефон" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition">
-              <textarea rows="4" placeholder="Сообщение" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition"></textarea>
-              <button type="submit" class="bg-accent text-white py-3 rounded-xl w-full font-semibold hover:bg-blue-600 transition">Отправить сообщение</button>
+              <input disabled type="text" placeholder="Ваше имя" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed">
+              <input disabled type="email" placeholder="Email или телефон" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed">
+              <textarea disabled rows="4" placeholder="Сообщение" class="w-full p-3 rounded-xl border border-gray-200 focus:border-accent outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed"></textarea>
+              <button disabled type="submit" class="bg-gray-400 text-white py-3 rounded-xl w-full font-semibold cursor-not-allowed transition">Отправить сообщение</button>
+
+              <!-- Уведомление об отключении формы -->
+              <div class="p-3 bg-amber-50 border-l-4 border-amber-500 text-amber-900 rounded-r-xl text-sm flex items-start space-x-2">
+                <i class="fas fa-info-circle text-amber-500 mt-0.5 flex-shrink-0"></i>
+                <p>
+                  <strong>Обратите внимание:</strong> На данный момент форма отключена. Она не обрабатывает и не собирает персональные данные в соответствии с Федеральным законом «О персональных данных» № 152-ФЗ.
+                </p>
+              </div>
             </form>
             <p class="text-xs text-gray-400 text-center mt-4">Нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности.</p>
           </div>
